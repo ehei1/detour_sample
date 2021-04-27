@@ -222,14 +222,11 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
             DetourUpdateThread(GetCurrentThread());
 #ifdef CINTERFACE
             oEndScene = g_pd3dDevice->lpVtbl->EndScene;
-
-            DetourAttach(&(PVOID&)oEndScene, Hooked_EndScene);
 #else
             void** vtbl = *(reinterpret_cast<void***>(g_pd3dDevice));
             oEndScene = reinterpret_cast<f_EndScene>(vtbl[42]);
-
-            DetourAttach(&oEndScene, Hooked_EndScene);
 #endif
+            DetourAttach(&oEndScene, Hooked_EndScene);
             DetourTransactionCommit();
 
             // Enter the message loop
