@@ -192,9 +192,6 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
 {
-    DetourTransactionBegin();
-    DetourUpdateThread(GetCurrentThread());
-
     UNREFERENCED_PARAMETER(hInst);
 
     // Register the window class
@@ -221,6 +218,8 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
             ShowWindow(hWnd, SW_SHOWDEFAULT);
             UpdateWindow(hWnd);
 
+            DetourTransactionBegin();
+            DetourUpdateThread(GetCurrentThread());
 #ifdef CINTERFACE
             oEndScene = g_pd3dDevice->lpVtbl->EndScene;
 
