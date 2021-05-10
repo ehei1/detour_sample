@@ -4,6 +4,10 @@ minimal sample for hooking DirectX 9 with [Microsoft Detours](https://github.com
 # detour_dx9_wrapper
 easy detouring with wrapper. see detour.h and detour_ID3DXConstantTable.h in wrapper folder. it clears when destructing
 
+it will warn to output window with OutputDebugString() about unused variable in hlsl
+
+> ID3DXConstantTable::SetFloat("unused") D3DERR_INVALIDCALL: Invalid call
+
 ## build
 * run Visual Studio with administrator mode to build Detours
 
