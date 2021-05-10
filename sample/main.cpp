@@ -217,15 +217,16 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
             // Show the window
             ShowWindow(hWnd, SW_SHOWDEFAULT);
             UpdateWindow(hWnd);
-
-            DetourTransactionBegin();
-            DetourUpdateThread(GetCurrentThread());
+            
 #ifdef CINTERFACE
             oEndScene = g_pd3dDevice->lpVtbl->EndScene;
 #else
             void** vtbl = *(reinterpret_cast<void***>(g_pd3dDevice));
             oEndScene = reinterpret_cast<f_EndScene>(vtbl[42]);
 #endif
+
+            DetourTransactionBegin();
+            DetourUpdateThread(GetCurrentThread());
             DetourAttach(&oEndScene, Hooked_EndScene);
             DetourTransactionCommit();
 
@@ -247,7 +248,7 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
 
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
-    DetourDetach(&(PVOID&)oEndScene, Hooked_EndScene);
+    DetourDetach(&oEndScene, Hooked_EndScene);
     DetourTransactionCommit();
 
     UnregisterClass(L"D3D Tutorial", wc.hInstance);
