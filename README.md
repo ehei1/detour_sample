@@ -1,5 +1,8 @@
-# detour_sample
-hooking DirectX 9 with [Microsoft Detours](https://github.com/microsoft/Detours)
+# detour_dx9
+minimal sample for hooking DirectX 9 with [Microsoft Detours](https://github.com/microsoft/Detours)
+
+# detour_dx9_wrapper
+easy detouring with wrapper. see detour.h and detour_ID3DXConstantTable.h in wrapper folder. it clears when destructing
 
 ## build
 * run Visual Studio with administrator mode to build Detours
