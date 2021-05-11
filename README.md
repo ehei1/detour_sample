@@ -1,16 +1,14 @@
-# detour_dx9
-minimal sample for hooking DirectX 9 with [Microsoft Detours](https://github.com/microsoft/Detours)
+# project
+## detour_dx9
+* minimal sample for hooking DirectX 9 with [Microsoft Detours](https://github.com/microsoft/Detours)
+* IDirect3DDevice9::EndScene() is hooked by Hooked_EndScene()
 
-# detour_dx9_wrapper
-easy detouring with wrapper. see detour.h and detour_ID3DXConstantTable.h in wrapper folder. it clears when destructing
-
-it will warn to output window with OutputDebugString() about unused variable in hlsl
-
+## detour_dx9_wrapper
+* easy detouring with wrapper
+* see detour.h and detour_ID3DXConstantTable.h in wrapper folder
+* it will warn to output window with OutputDebugString() about unused variable in hlsl
 > ID3DXConstantTable::SetFloat("unused") D3DERR_INVALIDCALL: Invalid call
 
-## build
-* run Visual Studio with administrator mode to build Detours
-
-## detoure_dx9
+# build
 * it needs to install [DirectX9 SDK](https://www.microsoft.com/en-us/download/details.aspx?id=6812)
-* IDirect3DDevice9::EndScene() is hooked by Hooked_EndScene()
+* run Visual Studio with administrator mode to build Detours
