@@ -19,6 +19,10 @@
       <Filter>wrapper</Filter>
     </ClCompile>
     <ClCompile Include="dxerr.cpp" />
+    <ClCompile Include="wrapper\detour_ID3DXEffect.cpp">
+      <Filter>wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -29,5 +33,9 @@
       <Filter>wrapper</Filter>
     </ClInclude>
     <ClInclude Include="dxerr.h" />
+    <ClInclude Include="wrapper\detour_ID3DXEffect.h">
+      <Filter>wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h" />
   </ItemGroup>
 </Project>

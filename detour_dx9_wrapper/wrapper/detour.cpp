@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include "detour_ID3DXConstantTable.h"
+#include "detour_ID3DXEffect.h"
 #include "detour.h"
 
 
@@ -38,7 +39,7 @@ std::vector<void*> __hook_functions([[maybe_unused]]TUPLE& tuple, [[maybe_unused
 }
 
 template<typename TARGET_PTRS, typename DETOURED_PTRS>
-void* _hook(void* source, void* target, TARGET_PTRS& target_ptrs, DETOURED_PTRS& detoured_ptrs)
+void* __hook_function(void* source, void* target, TARGET_PTRS& target_ptrs, DETOURED_PTRS& detoured_ptrs)
 {
 	if (std::cend(target_ptrs) == target_ptrs.find(target)) {
 		DetourTransactionBegin();
@@ -81,32 +82,23 @@ detour::~detour()
 	}
 }
 
-void detour::hook(ID3DXConstantTable* table)
+void detour::hook(ID3DXConstantTable* instance)
 {
-#ifdef CINTERFACE
-		ID3DXConstantTableVtbl* virtual_table = table->lpVtbl;
+	_hook(detour_ID3DXContantTable::detour(instance));
+}
 
-		SetInt setInt = virtual_table->SetInt;
-		SetFloat setFloat = virtual_table->SetFloat;
-		SetFloatArray setFloatArray = virtual_table->SetFloatArray;
-		SetMatrix setMatrix = virtual_table->SetMatrix;
-#else
-		void** virtual_table = *(reinterpret_cast<void***>(table));
+void detour::hook(ID3DXEffect* instance)
+{
+	_hook(detour_ID3DXEffect::detour(instance));
+}
 
-		// order of the ID3DXConstantTable
-		SetInt setInt = reinterpret_cast<SetInt>(virtual_table[15]);
-		SetFloat setFloat = reinterpret_cast<SetFloat>(virtual_table[17]);
-		SetFloatArray setFloatArray = reinterpret_cast<SetFloatArray>(virtual_table[18]);
-		SetMatrix setMatrix = reinterpret_cast<SetMatrix>(virtual_table[21]);
-#endif
-		auto functions = std::make_tuple(
-			std::make_tuple(setInt, detour_set_int, std::ref(target_set_int)),
-			std::make_tuple(setFloat, detour_set_float, std::ref(target_set_float)),
-			std::make_tuple(setFloatArray, detour_set_float_array, std::ref(target_set_float_array)),
-			std::make_tuple(setMatrix, detour_set_matrix, std::ref(target_set_matrix))
-		);
+void detour::_hook(functions&& functions)
+{
+	for (auto& function : functions) {
+		if (auto result = __hook_function(function.source_ptr, function.detoured_ptr, _target_ptrs, _detoured_ptrs)) {
+			*function.target_ptr = result;
 
-		for (auto function : __hook_functions<std::tuple_size_v<decltype(functions)>>(functions, _target_ptrs, _detoured_ptrs)) {
-			_detoured_functions.emplace_back(function);
+			_detoured_functions.emplace_back(result);
 		}
+	}
 }

@@ -6,9 +6,18 @@
 
 class detour
 {
+public:
 	using detoured_ptr = void*;
 	using source_ptr = void*;
 	using target_ptr = void*;
+
+	struct function {
+		source_ptr source_ptr;
+		detoured_ptr detoured_ptr;
+		target_ptr* target_ptr;
+	};
+
+	using functions = std::vector<function>;
 
 public:
 	detour() = default;
@@ -18,9 +27,11 @@ public:
 	detour& operator=(detour const&) = delete;
 
 	void hook(ID3DXConstantTable*);
+	void hook(ID3DXEffect*);
 
 private:
 	void _unhook(detoured_ptr function);
+	void _hook(functions&&);
 
 private:
 	std::vector<void*> _detoured_functions;

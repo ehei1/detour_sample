@@ -27,14 +27,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="utility.cpp" />
     <ClCompile Include="wrapper\detour.cpp" />
     <ClCompile Include="wrapper\detour_ID3DXConstantTable.cpp" />
+    <ClCompile Include="wrapper\detour_ID3DXEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="utility.h" />
     <ClInclude Include="wrapper\detour.h" />
     <ClInclude Include="wrapper\detour_ID3DXConstantTable.h" />
+    <ClInclude Include="wrapper\detour_ID3DXEffect.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
